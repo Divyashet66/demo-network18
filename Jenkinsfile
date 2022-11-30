@@ -42,7 +42,7 @@ pipeline {
  				 sh 'sudo  apt-get update'
  				  sh 'sudo apt-get install pack-cli'
 			   
-				  sh 'pack build app -t gcr.io/tech-rnd-project/todo --builder paketobuildpacks/builder:full'
+				  sh 'pack build todo -t gcr.io/tech-rnd-project/todo --builder paketobuildpacks/builder:full'
 			    
 		    }
 	    }
