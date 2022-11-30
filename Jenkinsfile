@@ -71,11 +71,11 @@ pipeline {
 			    sh 'ls -ltr'
 			    sh 'pwd'
 				echo "Start deployment of deployment.yaml"
-				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'k8/deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 			    	echo "Deployment Finished ..."
 			    sh '''
 			    '''
-				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'service.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'k8/service.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 			    	echo "Service created ..."
 			    sh '''
 			    '''
