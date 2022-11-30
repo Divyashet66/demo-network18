@@ -42,7 +42,7 @@ pipeline {
  				  sh 'sudo apt-get install pack-cli'
 			   
 				  sh 'pack build app --builder paketobuildpacks/builder:full'
-			    	  sh "sudo docker tag app:latest gcr.io/tech-rnd-project/todo"
+			    	  sh "sudo docker tag app:latest gcr.io/tech-rnd-project/faz-todo:${env.BUILD_ID}"
 			    
 		    }
 	    }
@@ -69,13 +69,14 @@ pipeline {
 		    steps{
 			    echo "Deployment started ..."
 			    sh 'ls -ltr'
+				sh 'cd k8'
 			    sh 'pwd'
 				echo "Start deployment of deployment.yaml"
-				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'k8', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 			    	echo "Deployment Finished ..."
 			    sh '''
 			    '''
-				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'k8', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'service.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 			    	echo "Service created ..."
 			    sh '''
 			    '''
