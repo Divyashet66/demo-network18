@@ -1,4 +1,3 @@
-
 pipeline {
   agent any
 
@@ -32,17 +31,19 @@ pipeline {
 			    sh 'whoami'
 			    sh 'sudo chmod 777 /var/run/docker.sock'
 			    
-			    sh 'sudo apt update'
+			    sh ' sudo apt update'
  			    sh 'sudo apt install software-properties-common -y'
- 			    sh 'sudo apt-get install nano'
+			    
+
 			    
 				    
 				sh 'sudo add-apt-repository ppa:cncf-buildpacks/pack-cli'
+			    
  				 sh 'sudo  apt-get update'
  				  sh 'sudo apt-get install pack-cli'
 			   
 				  sh 'pack build app --builder paketobuildpacks/builder:full'
-			    	  sh "sudo docker tag app:latest gcr.io/tech-rnd-project/faz-todo:${env.BUILD_ID}"
+			    	  sh "sudo docker tag app:latest gcr.io/tech-rnd-project/todo"
 			    
 		    }
 	    }
@@ -69,13 +70,14 @@ pipeline {
 		    steps{
 			    echo "Deployment started ..."
 			    sh 'ls -ltr'
-				sh 'cd k8'
 			    sh 'pwd'
+				
 				echo "Start deployment of deployment.yaml"
 				step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'k8', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 			    	echo "Deployment Finished ..."
 			    sh '''
 			    '''
+			    
 		    }
 	    }
     }
